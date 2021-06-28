@@ -1,0 +1,9 @@
+body {
+  background-color: rgba(39, 44, 51, 1);
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 300px 300px;
+}
