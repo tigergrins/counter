@@ -1,30 +1,20 @@
 .wrapper {
-  width: 400px;
+  min-width: 350px;
   height: 300px;
   border: 2px solid rgba(108, 228, 249, 1);
   border-radius: 8px;
 }
 
 .screen {
+  height: 160px;
   margin: 20px;
   border: 2px solid rgba(108, 228, 249, 1);
   border-radius: 8px;
-}
-
-.input {
-  margin: 40px 40px;
-  text-align: center;
-}
-
-.title {
-  font-size: 18px;
-  font-weight: 700;
-  color: rgba(108, 228, 249, 1);
-  padding: 10px;
-}
-
-.numbers {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 .buttons {

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import style from './App.module.css';
 import {Counter} from './components/Counter/Counter';
 import {Settings} from './components/Settings/Settings';
+import {BrowserRouter, Route} from 'react-router-dom';
 
 export type titleScreenType = 'enter values and press \'set\'' | 'Incorrect value!'
 
@@ -17,7 +18,7 @@ type StateType = {
     blockOfScreen: boolean
 }
 
-export function App() {
+export function AppV2() {
     const [state, setState] = useState<StateType>(
         {
             startValue: 0,
@@ -125,23 +126,26 @@ export function App() {
     }, [state.startValue, state.maxValue])
 
     return (
-        <div className={style.wrapper}>
-            <Settings tempStartValue={state.tempStartValue}
-                      tempMaxValue={state.tempMaxValue}
-                      incorrectValue={state.incorrectValue}
-                      changeStartValue={changeStartValue}
-                      changeMaxValue={changeMaxValue}
-                      setSettings={setSettings}/>
-            <Counter currentValue={state.currentValueCounter}
-                     maxValue={state.maxValue}
-                     incorrectValue={state.incorrectValue}
-                     incDisabled={state.incDisabled}
-                     blockOfScreen={state.blockOfScreen}
-                     titlesScreen={state.titlesScreen}
-                     increase={increase}
+        <BrowserRouter>
+            <div className={style.wrapper}>
+                <Route path={'/counter'} render={() => <Counter currentValue={state.currentValueCounter}
+                                                                maxValue={state.maxValue}
+                                                                incorrectValue={state.incorrectValue}
+                                                                incDisabled={state.incDisabled}
+                                                                blockOfScreen={state.blockOfScreen}
+                                                                titlesScreen={state.titlesScreen}
+                                                                increase={increase}
+                                                                reset={reset}/>}/>
+                <Route path={'/settings'} component={() => <Settings tempStartValue={state.tempStartValue}
+                                                                     tempMaxValue={state.tempMaxValue}
+                                                                     incorrectValue={state.incorrectValue}
+                                                                     changeStartValue={changeStartValue}
+                                                                     changeMaxValue={changeMaxValue}
+                                                                     setSettings={setSettings}/>}/>
 
-                     reset={reset}/>
-        </div>
+            </div>
+        </BrowserRouter>
+
     )
 
 }

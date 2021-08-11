@@ -7,3 +7,7 @@
     font-weight: 700;
     color: rgba(39, 44, 51, 1);
 }
+
+.disabled {
+    background-color: rgb(61, 120, 134);
+}

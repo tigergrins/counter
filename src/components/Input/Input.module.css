@@ -1,0 +1,28 @@
+.item {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.input {
+  text-align: center;
+  width: 100px;
+  height: 20px;
+  /*display: inline-block;*/
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(108, 228, 249, 1);
+  padding: 10px;
+}
+
+.numbers {
+  text-align: center;
+}
+
+.error {
+  color: rgb(185, 41, 41);
+  background-color: rgba(245, 171, 171, 0.99);
+  border: 2px solid rgb(185, 41, 41);
+}

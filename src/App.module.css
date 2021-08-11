@@ -5,5 +5,5 @@ body {
 .wrapper {
   display: flex;
   justify-content: space-between;
-  margin: 300px 300px;
+  margin: 150px 20%;
 }
