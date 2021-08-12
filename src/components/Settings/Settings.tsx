@@ -4,12 +4,13 @@ import {Button} from '../Button/Button';
 import {Input} from '../Input/Input';
 
 type SettingsPropsType = {
-    tempStartValue: number
-    tempMaxValue: number
+    startValue: number
+    maxValue: number
     incorrectValue: boolean
     changeStartValue: (value: number) => void
     changeMaxValue: (value: number) => void
     setSettings: () => void
+    setDisable: boolean
 }
 
 export function Settings(props: SettingsPropsType) {
@@ -19,18 +20,19 @@ export function Settings(props: SettingsPropsType) {
         <div className={style.wrapper}>
             <div className={style.screen}>
                 <Input title={'max value'}
-                       value={props.tempMaxValue}
+                       value={props.maxValue}
                        error={props.incorrectValue}
                        setTempValue={props.changeMaxValue}/>
                 <Input title={'start value'}
-                       value={props.tempStartValue}
+                       value={props.startValue}
                        error={props.incorrectValue}
                        setTempValue={props.changeStartValue}/>
             </div>
             <div className={style.buttons}>
                 <Button titleOfButton={'set'}
                         incorrectValue={props.incorrectValue}
-                        callback={props.setSettings}/>
+                        callback={props.setSettings}
+                        disabled={props.setDisable}/>
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ type CounterPropsType = {
     titlesScreen: Array<titleScreenType>
     increase: () => void
     reset: () => void
+    resetDisable: boolean
 }
 
 export function Counter(props: CounterPropsType) {
@@ -44,7 +45,7 @@ export function Counter(props: CounterPropsType) {
                         callback={props.increase}/>
                 <Button titleOfButton={'reset'}
                         incorrectValue={props.incorrectValue}
-                        disabled={props.blockOfScreen}
+                        disabled={props.blockOfScreen || props.resetDisable}
                         callback={props.reset}/>
             </div>
         </div>

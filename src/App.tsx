@@ -7,28 +7,28 @@ export type titleScreenType = 'enter values and press \'set\'' | 'Incorrect valu
 
 type StateType = {
     startValue: number
-    tempStartValue: number
     maxValue: number
-    tempMaxValue: number
     currentValueCounter: number
     incorrectValue: boolean
     incDisabled: boolean
     titlesScreen: Array<titleScreenType>
     blockOfScreen: boolean
+    resetDisable: boolean
+    setDisable: boolean
 }
 
 export function App() {
     const [state, setState] = useState<StateType>(
         {
             startValue: 0,
-            tempStartValue: 0,
             maxValue: 5,
-            tempMaxValue: 5,
             currentValueCounter: 0,
             incorrectValue: false,
             incDisabled: false,
             titlesScreen: ['enter values and press \'set\'', 'Incorrect value!'],
             blockOfScreen: false,
+            resetDisable: true,
+            setDisable: true,
         })
 
     const increase = () => {
@@ -36,6 +36,7 @@ export function App() {
             setState(() => ({
                     ...state,
                     currentValueCounter: state.currentValueCounter + 1,
+                    resetDisable: false,
                 })
             )
         }
@@ -45,76 +46,83 @@ export function App() {
                 ...state,
                 currentValueCounter: state.currentValueCounter + 1,
                 incDisabled: true,
+                resetDisable: false,
             })
         }
     }
+
     const reset = () => {
         setState({
             ...state,
             currentValueCounter: state.startValue,
             incDisabled: false,
+            resetDisable: true,
         })
     }
+
     const changeStartValue = (value: number) => {
-        if (value < 0 || value >= state.tempMaxValue) {
+        if (value < 0 || value >= state.maxValue) {
             setState({
                 ...state,
-                tempStartValue: value,
+                startValue: value,
                 incorrectValue: true,
             })
         } else {
             setState({
                 ...state,
-                tempStartValue: value,
+                startValue: value,
                 blockOfScreen: true,
                 incorrectValue: false,
+                incDisabled: false,
+                setDisable: false,
             })
         }
     }
-    console.log(state.startValue)
+
     const changeMaxValue = (value: number) => {
-        console.log(state.startValue)
-        if (value < 0 || value <= state.tempStartValue) {
+        if (value < 0 || value <= state.startValue) {
             setState({
                 ...state,
-                tempMaxValue: value,
+                maxValue: value,
                 incorrectValue: true,
             })
         } else {
             setState({
                 ...state,
-                tempMaxValue: value,
+                maxValue: value,
                 blockOfScreen: true,
                 incorrectValue: false,
+                incDisabled: false,
+                setDisable: false,
             })
         }
     }
+
     const setSettings = () => {
         setState({
             ...state,
-            startValue: state.tempStartValue,
-            maxValue: state.tempMaxValue,
-            currentValueCounter: state.tempStartValue,
+            currentValueCounter: state.startValue,
+            incorrectValue: false,
+            incDisabled: false,
             blockOfScreen: false,
+            resetDisable: true,
+            setDisable: true,
         })
     }
 
     useEffect(() => {
         const maxValueAsString = localStorage.getItem('maxValue')
-        if (maxValueAsString) {
-            const newMaxValue = JSON.parse(maxValueAsString)
-            setState({
-                ...state,
-                maxValue: newMaxValue
-            })
-        }
-
         const startValueAsString = localStorage.getItem('startValue')
-        if (startValueAsString) {
+
+        if (maxValueAsString && startValueAsString) {
+            const newMaxValue = JSON.parse(maxValueAsString)
             const newStartValue = JSON.parse(startValueAsString)
+
             setState({
                 ...state,
-                startValue: newStartValue
+                maxValue: newMaxValue,
+                startValue: newStartValue,
+                currentValueCounter: newStartValue,
             })
         }
     }, [])
@@ -122,16 +130,17 @@ export function App() {
     useEffect(() => {
         localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
         localStorage.setItem('startValue', JSON.stringify(state.startValue))
-    }, [state.startValue, state.maxValue])
+    }, [state.maxValue, state.startValue])
 
     return (
         <div className={style.wrapper}>
-            <Settings tempStartValue={state.tempStartValue}
-                      tempMaxValue={state.tempMaxValue}
+            <Settings startValue={state.startValue}
+                      maxValue={state.maxValue}
                       incorrectValue={state.incorrectValue}
                       changeStartValue={changeStartValue}
                       changeMaxValue={changeMaxValue}
-                      setSettings={setSettings}/>
+                      setSettings={setSettings}
+                      setDisable={state.setDisable}/>
             <Counter currentValue={state.currentValueCounter}
                      maxValue={state.maxValue}
                      incorrectValue={state.incorrectValue}
@@ -139,8 +148,8 @@ export function App() {
                      blockOfScreen={state.blockOfScreen}
                      titlesScreen={state.titlesScreen}
                      increase={increase}
-
-                     reset={reset}/>
+                     reset={reset}
+                     resetDisable={state.resetDisable}/>
         </div>
     )
 
