@@ -2,37 +2,39 @@ import React from 'react';
 import style from './Settings.module.css';
 import {Button} from '../Button/Button';
 import {Input} from '../Input/Input';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
+import {changeMaxValueAC, changeStartValueAC, DisableType, setSettingsAC, ValuesType} from '../../redux/counter-reducer';
 
-type SettingsPropsType = {
-    startValue: number
-    maxValue: number
-    incorrectValue: boolean
-    changeStartValue: (value: number) => void
-    changeMaxValue: (value: number) => void
-    setSettings: () => void
-    setDisable: boolean
-}
+type SettingsPropsType = {}
 
 export function Settings(props: SettingsPropsType) {
+    const dispatch = useDispatch()
+    const values = useSelector<AppStateType, ValuesType>(state => state.counter.values)
+    const disable = useSelector<AppStateType, DisableType>(state => state.counter.disable)
+
+    const changeStartValueCounter = (value: number) => dispatch(changeStartValueAC(value))
+    const changeMaxValueCounter = (value: number) => dispatch(changeMaxValueAC(value))
+    const setSettingsCounter = () => dispatch(setSettingsAC())
 
 
     return (
         <div className={style.wrapper}>
             <div className={style.screen}>
                 <Input title={'max value'}
-                       value={props.maxValue}
-                       error={props.incorrectValue}
-                       setTempValue={props.changeMaxValue}/>
+                       value={values.maxValue}
+                       error={disable.incorrectValue}
+                       callback={changeMaxValueCounter}/>
                 <Input title={'start value'}
-                       value={props.startValue}
-                       error={props.incorrectValue}
-                       setTempValue={props.changeStartValue}/>
+                       value={values.startValue}
+                       error={disable.incorrectValue}
+                       callback={changeStartValueCounter}/>
             </div>
             <div className={style.buttons}>
                 <Button titleOfButton={'set'}
-                        incorrectValue={props.incorrectValue}
-                        callback={props.setSettings}
-                        disabled={props.setDisable}/>
+                        incorrectValue={disable.incorrectValue}
+                        callback={setSettingsCounter}
+                        disabled={disable.setDisable}/>
             </div>
         </div>
     )

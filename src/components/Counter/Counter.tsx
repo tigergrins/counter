@@ -1,34 +1,35 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button} from '../Button/Button';
 import style from './Counter.module.css';
-import {titleScreenType} from '../../App';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
+import {DisableType, increaseAC, resetAC, ValuesType} from '../../redux/counter-reducer';
 
-type CounterPropsType = {
-    currentValue: number
-    maxValue: number
-    incorrectValue: boolean
-    incDisabled: boolean
-    blockOfScreen: boolean
-    titlesScreen: Array<titleScreenType>
-    increase: () => void
-    reset: () => void
-    resetDisable: boolean
-}
+type CounterPropsType = {}
 
 export function Counter(props: CounterPropsType) {
+    const dispatch = useDispatch()
+    const values = useSelector<AppStateType, ValuesType>(state => state.counter.values)
+    const disable = useSelector<AppStateType, DisableType>(state => state.counter.disable)
+    const titles = useSelector<AppStateType, string[]>(state => state.counter.titles)
+
+
     const screenValue = () => {
-        if (props.incorrectValue) {
-            return props.titlesScreen[1]
-        } else if (props.blockOfScreen) {
-            return props.titlesScreen[0]
+        if (disable.incorrectValue) {
+            return titles[1]
+        } else if (disable.blockOfScreen) {
+            return titles[0]
         } else {
-            return props.currentValue
+            return values.currentValueCounter
         }
     }
 
-    const classNameValue = `${style.number} ${props.blockOfScreen || props.incorrectValue ? style.title : ''}`
-    const classNameRed = props.incDisabled || props.incorrectValue ? style.red : ''
-    const disabled = props.incDisabled || props.blockOfScreen
+    const increaseByOne = () => dispatch(increaseAC())
+    const resetCounter = () => dispatch(resetAC())
+
+    const classNameValue = `${style.number} ${disable.blockOfScreen || disable.incorrectValue ? style.title : ''}`
+    const classNameRed = disable.incDisabled || disable.incorrectValue ? style.red : ''
+    const disabled = disable.incDisabled || disable.blockOfScreen
 
     return (
         <div className={style.wrapper}>
@@ -40,13 +41,13 @@ export function Counter(props: CounterPropsType) {
             <div className={style.buttons}>
 
                 <Button titleOfButton={'inc'}
-                        incorrectValue={props.incorrectValue}
+                        incorrectValue={disable.incorrectValue}
                         disabled={disabled}
-                        callback={props.increase}/>
+                        callback={increaseByOne}/>
                 <Button titleOfButton={'reset'}
-                        incorrectValue={props.incorrectValue}
-                        disabled={props.blockOfScreen || props.resetDisable}
-                        callback={props.reset}/>
+                        incorrectValue={disable.incorrectValue}
+                        disabled={disable.blockOfScreen || disable.resetDisable}
+                        callback={resetCounter}/>
             </div>
         </div>
     )

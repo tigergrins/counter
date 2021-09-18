@@ -1,9 +1,7 @@
-body {
-  background-color: rgba(39, 44, 51, 1);
-}
-
 .wrapper {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  margin: 150px 20%;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
 }

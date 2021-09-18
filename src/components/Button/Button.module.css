@@ -2,10 +2,11 @@
     width: 120px;
     height: 40px;
     background-color: rgba(108, 228, 249, 1);
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 28px;
     font-weight: 700;
     color: rgba(39, 44, 51, 1);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .disabled {

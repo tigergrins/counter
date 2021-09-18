@@ -5,14 +5,13 @@ type InputPropsType = {
     title: string
     value: number
     error: boolean
-    setTempValue: (value: number) => void
+    callback: (value: number) => void
 }
 
 export function Input(props: InputPropsType) {
     const onchangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setTempValue(+e.currentTarget.value)
+        props.callback(+e.currentTarget.value)
     }
-
 
     return (
         <div className={style.item}>
