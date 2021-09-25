@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import style from './Settings.module.css';
 import {Button} from '../Button/Button';
 import {Input} from '../Input/Input';
@@ -17,10 +17,10 @@ type SettingsPropsType = {
     disable: DisableType
 }
 
-export function Settings(props: SettingsPropsType) {
-    const changeStartValueCounter = (value: number) => props.dispatch(changeStartValueAC(value))
-    const changeMaxValueCounter = (value: number) => props.dispatch(changeMaxValueAC(value))
-    const setSettingsCounter = () => props.dispatch(setSettingsAC())
+export const Settings = (props: SettingsPropsType) => {
+    const changeStartValueCounter = useCallback((value: number) => props.dispatch(changeStartValueAC(value)), [props.dispatch])
+    const changeMaxValueCounter = useCallback((value: number) => props.dispatch(changeMaxValueAC(value)), [props.dispatch])
+    const setSettingsCounter = useCallback(() => props.dispatch(setSettingsAC()), [props.dispatch])
 
 
     return (

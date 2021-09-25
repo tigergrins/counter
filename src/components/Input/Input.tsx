@@ -8,7 +8,7 @@ type InputPropsType = {
     callback: (value: number) => void
 }
 
-export function Input(props: InputPropsType) {
+export const Input = React.memo((props: InputPropsType) => {
     const onchangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.callback(+e.currentTarget.value)
     }
@@ -23,4 +23,4 @@ export function Input(props: InputPropsType) {
             />
         </div>
     )
-}
+})

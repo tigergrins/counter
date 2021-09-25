@@ -8,7 +8,7 @@ type ButtonPropsType = {
     callback: () => void
 }
 
-export function Button(props: ButtonPropsType) {
+export const Button = React.memo((props: ButtonPropsType) => {
     const buttonDisabled = props.incorrectValue || props.disabled
 
     const buttonClassName = `${styles.button} ${props.incorrectValue || props.disabled ? styles.disabled : ''}`
@@ -18,4 +18,4 @@ export function Button(props: ButtonPropsType) {
                 disabled={buttonDisabled}
                 className={buttonClassName}>{props.titleOfButton}</button>
     )
-}
+})

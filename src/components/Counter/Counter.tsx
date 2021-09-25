@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button} from '../Button/Button';
 import style from './Counter.module.css';
 import {AppDispatchType} from '../../redux/redux-store';
@@ -11,7 +11,7 @@ type CounterPropsType = {
     titles: string[]
 }
 
-export function Counter(props: CounterPropsType) {
+export const Counter = React.memo((props: CounterPropsType) => {
     const screenValue = () => {
         if (props.disable.incorrectValue) {
             return props.titles[1]
@@ -22,8 +22,8 @@ export function Counter(props: CounterPropsType) {
         }
     }
 
-    const increaseByOne = () => props.dispatch(increaseAC())
-    const resetCounter = () => props.dispatch(resetAC())
+    const increaseByOne = useCallback(() => props.dispatch(increaseAC()), [props.dispatch])
+    const resetCounter = useCallback(() => props.dispatch(resetAC()), [props.dispatch])
 
     const classNameValue = `${style.number} ${props.disable.blockOfScreen || props.disable.incorrectValue ? style.title : ''}`
     const classNameRed = props.disable.incDisabled || props.disable.incorrectValue ? style.red : ''
@@ -49,4 +49,4 @@ export function Counter(props: CounterPropsType) {
             </div>
         </div>
     )
-}
+})
